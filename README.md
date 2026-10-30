@@ -12,8 +12,9 @@ just install ~/path/to/repo
 
 This copies `.claude/`, adds the `AGENTS.md → CLAUDE.md` and
 `.agents → .claude` symlinks, and appends `import? '.claude/claude.just'` to
-the repo's justfile. Copy `CLAUDE.md` in yourself if you want these working
-agreements.
+the repo's justfile. It doesn't copy `CLAUDE.md` (the working agreements).
+To apply them in every repo, add `@~/repos/claude-config/CLAUDE.md` to your
+`~/.claude/CLAUDE.md`; a `git pull` here then updates them everywhere.
 
 ## Update an installed repo
 

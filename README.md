@@ -44,6 +44,7 @@ Extra arguments pass through: `just claude go-backend -p "run the tests"`.
 |---|---|
 | `.claude/claude.just` | The launcher recipes |
 | `.claude/profiles/go-backend/` | Example profile: Go service conventions |
+| `.claude/profiles/nextjs/` | Example profile: Next.js App Router conventions |
 | `.claude/settings.json` | Deny list (`rm -rf`, force-push, reading `.env`/secrets), read-only git/gh allow list, `gofumpt` on edited Go files, public plugins (`pr-review-toolkit`, `codex`, `superpowers`) |
 | `.claude/skills/review-pr/` | Aspect-split PR review: a panel of `pr-review-toolkit` agents, a verification pass, one consolidated review |
 | `.claude/skills/design-doc/` | Design doc generator |

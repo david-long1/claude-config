@@ -10,10 +10,24 @@ serves both tools.
 just install ~/path/to/repo
 ```
 
-This copies `.claude/` (skipping files that already exist), adds the
-`AGENTS.md → CLAUDE.md` and `.agents → .claude` symlinks, and appends
-`import? '.claude/claude.just'` to the repo's justfile. Copy `CLAUDE.md` in
-yourself if you want these working agreements.
+This copies `.claude/`, adds the `AGENTS.md → CLAUDE.md` and
+`.agents → .claude` symlinks, and appends `import? '.claude/claude.just'` to
+the repo's justfile. It doesn't copy `CLAUDE.md` (the working agreements).
+To apply them in every repo, add `@~/repos/claude-config/CLAUDE.md` to your
+`~/.claude/CLAUDE.md`; a `git pull` here then updates them everywhere.
+
+## Update an installed repo
+
+From inside the repo, run `just claude-sync`. Or run `just install <path>`
+again from here. `.claude/.claude-config.lock` records what was installed, so
+an update:
+
+- updates files you haven't touched,
+- keeps files you edited and prints a `diff` command for each,
+- doesn't restore files you deleted (e.g. a profile you don't need),
+- never touches files that were there before the first install.
+
+Commit the lock file with the rest of `.claude/`.
 
 ## Launchers
 
@@ -23,6 +37,7 @@ yourself if you want these working agreements.
 | `just claude-resume [profile]` | Same, continuing the last session |
 | `just codex [profile] [args]` | Codex CLI, with the profile passed as `developer_instructions` |
 | `just profiles` | List profiles |
+| `just claude-sync` | Update `.claude/` from the claude-config checkout it came from |
 
 Extra arguments pass through: `just claude go-backend -p "run the tests"`.
 
@@ -44,7 +59,9 @@ Extra arguments pass through: `just claude go-backend -p "run the tests"`.
 |---|---|
 | `.claude/claude.just` | The launcher recipes |
 | `.claude/profiles/go-backend/` | Example profile: Go service conventions |
-| `.claude/settings.json` | Deny list (`rm -rf`, force-push, reading `.env`/secrets), read-only git/gh allow list, `gofumpt` on edited Go files, public plugins (`pr-review-toolkit`, `codex`, `superpowers`) |
+| `.claude/profiles/nextjs/` | Example profile: Next.js App Router conventions |
+| `.claude/settings.json` | Deny list (`rm -rf`, force-push, reading `.env`/secrets), read-only git/gh allow list, format hook, public plugins (`pr-review-toolkit`, `codex`, `superpowers`) |
+| `.claude/hooks/format.sh` | Formats each edited file with the project's own formatter, if installed: `gofumpt` (Go), `rustfmt` with the crate's edition (Rust), `ruff format` (Python), `prettier` when it's a declared dependency (JS/TS/CSS) |
 | `.claude/skills/review-pr/` | Aspect-split PR review: a panel of `pr-review-toolkit` agents, a verification pass, one consolidated review |
 | `.claude/skills/design-doc/` | Design doc generator |
 | `.claude/skills/handoff/` | Session handoff prompt when context runs low |

@@ -37,3 +37,12 @@ codex profile="" *args:
     f="$root/.claude/profiles/$profile/system-prompt.md"
     [ -f "$f" ] || { echo "unknown profile '$profile'; have: $(ls "$root/.claude/profiles" | tr '\n' ' ')" >&2; exit 1; }
     exec codex --cd "$root" -c developer_instructions="$(cat "$f")" "$@"
+
+# update this repo's .claude/ from the claude-config checkout it was installed from
+[group('agents')]
+claude-sync:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    src=$(sed -n '1s/^# claude-config [^ ]* from //p' .claude/.claude-config.lock 2>/dev/null)
+    [ -x "$src/install.sh" ] || { echo "no claude-config source recorded; run its install.sh on this repo first" >&2; exit 1; }
+    "$src/install.sh" .

@@ -1,7 +1,9 @@
 # Working Agreements
 
-Project instructions for Claude Code (and Codex, via the `AGENTS.md`
-symlink). Copy into a repo with `just install <path>` and trim to taste.
+Instructions for Claude Code (and Codex, via the `AGENTS.md` symlink).
+`just install` doesn't copy this file. To apply it everywhere, import it
+from `~/.claude/CLAUDE.md` with `@~/repos/claude-config/CLAUDE.md`; or copy
+it into one repo and trim to taste.
 
 ## General
 
